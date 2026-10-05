@@ -1,11 +1,10 @@
-name: Report a bug
-description: Something isn't working
+name: Question
+description: How do I, where is, or help with setup and access
 body:
   - type: textarea
     id: what
     attributes:
-      label: What happened?
-      placeholder: What you did, what went wrong, and what you expected instead
+      label: What do you need?
     validations:
       required: true
   - type: input
@@ -23,8 +22,3 @@ body:
       default: 0
     validations:
       required: true
-  - type: textarea
-    id: extra
-    attributes:
-      label: Anything else
-      placeholder: Screenshots, logs, error text
