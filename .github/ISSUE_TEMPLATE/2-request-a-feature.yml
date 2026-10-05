@@ -1,0 +1,25 @@
+name: Request a feature
+description: Something you'd like added or changed
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What would you like?
+      placeholder: What it should do, and why it would help
+    validations:
+      required: true
+  - type: dropdown
+    id: notify
+    attributes:
+      label: Notify ClaudioVisual?
+      options:
+        - Yes, @claudiovisual please
+        - No, a person will look
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      placeholder: Sketches, examples, links

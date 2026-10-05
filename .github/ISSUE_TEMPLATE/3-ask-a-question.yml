@@ -1,0 +1,24 @@
+name: Ask a question
+description: How do I, where is, or help with setup and access
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What do you need?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where?
+      placeholder: Rig, machine, or command
+  - type: dropdown
+    id: notify
+    attributes:
+      label: Notify ClaudioVisual?
+      options:
+        - Yes, @claudiovisual please
+        - No, a person will look
+      default: 0
+    validations:
+      required: true

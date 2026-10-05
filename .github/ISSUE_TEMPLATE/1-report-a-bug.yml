@@ -1,0 +1,30 @@
+name: Report a bug
+description: Something isn't working
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      placeholder: What you did, what went wrong, and what you expected instead
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where?
+      placeholder: Rig, machine, or command
+  - type: dropdown
+    id: notify
+    attributes:
+      label: Notify ClaudioVisual?
+      options:
+        - Yes, @claudiovisual please
+        - No, a person will look
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      placeholder: Screenshots, logs, error text
