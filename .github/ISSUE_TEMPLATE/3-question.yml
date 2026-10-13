@@ -1,5 +1,6 @@
 name: Question
 description: How do I, where is, or help with setup and access
+labels: [question]
 body:
   - type: textarea
     id: what

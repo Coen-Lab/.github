@@ -1,5 +1,6 @@
 name: Feature Request
 description: Something you'd like added or changed
+labels: [feature]
 body:
   - type: textarea
     id: what
