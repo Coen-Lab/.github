@@ -1,0 +1,48 @@
+# Mentions Pip on a main commit whose tests failed. Machines install from
+# main, and changes reach main through pull requests by convention only (the
+# ruleset lets admins push), so a red main is live on the next launch and
+# someone has to hear about it.
+#
+# Each repository keeps its own tests job (runners and toolchains differ) and
+# calls this after it:
+#
+#   alert:
+#     needs: tests
+#     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+#     uses: Coen-Lab/.github/.github/workflows/tests-failed-alert.yml@main
+#     with:
+#       result: ${{ needs.tests.result }}
+#     permissions:
+#       contents: write
+#
+# A change here reaches every repository that calls it on its next push.
+
+name: Tests failed alert
+
+on:
+  workflow_call:
+    inputs:
+      result:
+        description: The caller's tests job result (success, failure, cancelled, skipped).
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  # A red run on main used to say nothing: rig-setup's 5cf359d failed on
+  # 19 Oct 2026 and students were told to relaunch for fixes that had not
+  # shipped. A commit comment rather than an issue, because ClaudioVisual
+  # answers issues and would try to fix the tests. A cancelled run (a newer
+  # push queued behind) says nothing.
+  alert:
+    if: inputs.result == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Mention Pip on the failing commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" -f body="@pipcoen Tests failed on main, and machines install from main, so this commit is live on their next launch. $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
