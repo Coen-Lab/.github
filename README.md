@@ -4,4 +4,6 @@ Issue forms that every Coen-Lab repository inherits unless it has its own `.gith
 
 ## Shared workflows
 
-`.github/workflows/promote-stable.yml` is the deploy gate for every repository whose machines install from `stable` (rig-setup, gui-pyrat, claudiovisual). Each repository runs its own tests, then calls it: a green push to master fast-forwards `stable`, a red one mentions Pip on the commit. The calling snippet is at the top of the file.
+`.github/workflows/tests-failed-alert.yml` mentions Pip on a main commit whose tests failed, in every repository whose machines install from main (rig-setup, gui-pyrat, claudiovisual, claude-tools, lib-keyring). Each repository runs its own tests, then calls it. The calling snippet is at the top of the file.
+
+Every lab repository works on `main`. Changes go in through pull requests, not direct pushes to main; this is a convention, not enforced by the ruleset.
