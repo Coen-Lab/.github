@@ -1,4 +1,4 @@
-# Mentions Pip on a main commit whose tests failed. Machines install from
+# Comments on a main commit whose tests failed (no mention: Pip asked, 13 Nov 2026). Machines install from
 # main, and changes reach main through pull requests by convention only (the
 # ruleset lets admins push), so a red main is live on the next launch and
 # someone has to hear about it.
@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Mention Pip on the failing commit
+      - name: Comment on the failing commit
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" -f body="@pipcoen Tests failed on main, and machines install from main, so this commit is live on their next launch. $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" -f body="Tests failed on main, and machines install from main, so this commit is live on their next launch. $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
