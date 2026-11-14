@@ -1,7 +1,8 @@
-# Comments on a main commit whose tests failed (no mention: Pip asked, 13 Nov 2026). Machines install from
+# Marks a main commit whose tests failed with an error annotation on the run. Machines install from
 # main, and changes reach main through pull requests by convention only (the
-# ruleset lets admins push), so a red main is live on the next launch and
-# someone has to hear about it.
+# ruleset lets admins push), so a red main is live on the next launch.
+# No commit comment and no email (Pip, 14 Nov 2026): a comment emails the
+# commit's author even without a mention, and Pip authors nearly every commit.
 #
 # Each repository keeps its own tests job (runners and toolchains differ) and
 # calls this after it:
@@ -28,21 +29,18 @@ on:
         type: string
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  # A red run on main used to say nothing: rig-setup's 5cf359d failed on
-  # 19 Oct 2026 and students were told to relaunch for fixes that had not
-  # shipped. A commit comment rather than an issue, because ClaudioVisual
-  # answers issues and would try to fix the tests. A cancelled run (a newer
-  # push queued behind) says nothing.
+  # rig-setup's 5cf359d failed on 19 Oct 2026 and students were told to
+  # relaunch for fixes that had not shipped, so a red main is marked on the
+  # run's page. Never an issue (ClaudioVisual answers issues and would try to
+  # fix the tests) and never a commit comment (it emails Pip). A cancelled
+  # run (a newer push queued behind) says nothing.
   alert:
     if: inputs.result == 'failure'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Comment on the failing commit
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" -f body="Tests failed on main, and machines install from main, so this commit is live on their next launch. $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+      - name: Mark the failing commit
+        run: echo "::error title=Tests failed on main::Machines install from main, so $GITHUB_SHA is live on their next launch."
